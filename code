@@ -1,0 +1,98 @@
+                                                              
+
+UNDERWATER FISH DETECTION
+
+!git clone https://github.com/WongKinYiu/yolov7
+%cd yolov7
+!pip install -r requirements.txt
+
+!pip install roboflow
+
+from roboflow import Roboflow
+rf = Roboflow(api_key="")
+project = rf.workspace("roboflow-gw7yv").project("fish-yzfml")
+dataset = project.version(43).download("yolov7")
+
+
+%cd /content/yolov7
+!wget "https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt"
+
+%cd /content/yolov7
+!python train.py --batch 16 --cfg cfg/training/yolov7.yaml --epochs 100 --data 
+/content/yolov7/Fish-43/data.yaml --weights 'yolov7.pt' --device 0 
+
+
+!python detect.py --weights runs/train/exp/weights/best.pt --conf-thres 0.2 --source /content/yolov7/Fish-43/test/images
+
+
+import glob
+from IPython.display import Image, display
+
+i = 0
+limit = 10000 # max images to print
+for imageName in glob.glob('/content/yolov7/runs/detect/exp2/*.jpg'): #assuming JPG
+    if i < limit:
+      display(Image(filename=imageName))
+      print("\n")
+    i = i + 1  
+
+ 
+ 
+
+ 
+
+ 
+
+
+ 
+
+
+ 
+
+
+ 
+
+
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+ 
+
+
+ 
+
+
+
